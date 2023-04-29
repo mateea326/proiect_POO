@@ -35,6 +35,7 @@ Music Player
 -pentru stocarea melodiilor intr-o lista
 
 7) Audio 
+
 -interfata pentru obiecte audio
 
 ## Functionalitati:
