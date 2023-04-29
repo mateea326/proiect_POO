@@ -39,10 +39,17 @@ Music Player
 -interfata pentru obiecte audio
 
 ## Functionalitati:
+
 -poate sa aleaga o melodie din playlist dupa numarul ei si sa ii afiseze detaliile
+
 -poate sa dea shuffle la playlist, adica sa afiseze o melodie random din cele din playlist
+
 -poate sa adauge o melodie 
+
 -poate sa afiseze numarul total de melodii si durata totala a playlist-ului
+
 -poate sa faca playlist-ul colaborativ
+
 -poate sa primeasca ca input un podcast si sa treaca prin numarul de episoade pe care il are
+
 -poate sa primeasca ca input o melodie dupa un anumit gen muzical
