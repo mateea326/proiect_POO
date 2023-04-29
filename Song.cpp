@@ -1,15 +1,19 @@
 #include <iostream>
+#include <string>
 #include "Song.h"
-#include "MyString.h"
 #include "Artist.h"
 #include "Album.h"
 
-Song::Song() : song_name("song_name"), album_name("album_name"), artist_name("artist_name"), song_time(0.0)
+int Song::total_songs = 0;
+
+Song::Song() : song_name(""), album_name(""), artist_name(""), song_time(0.0)
 {
+    total_songs++;
 }
 
-Song::Song(const MyString &s, const Artist &a, const Album &alb) : song_name(s), artist_name(a), album_name(alb)
+Song::Song(const std::string &s, const Artist &a, const Album &alb) : song_name(s), artist_name(a), album_name(alb)
 {
+    total_songs++;
 }
 
 Song::~Song()
@@ -40,18 +44,49 @@ void Song::set_time(float time)
     song_time = time;
 }
 
-float Song::get_time()
+float Song::get_time() const
 {
     return song_time;
 }
 
-Song::operator MyString() const
+int Song::get_total_songs()
 {
-    return MyString(song_name);
+    return total_songs;
+}
+
+bool Song::operator==(const Song &s) const
+{
+    if (song_name == s.song_name && artist_name == s.artist_name && album_name == s.album_name)
+        return 1;
+    return 0;
 }
 
 std::ostream &operator<<(std::ostream &out, const Song &s)
 {
     out << s.song_name;
     return out;
+}
+
+PopSong::PopSong() : Song()
+{
+}
+
+PopSong::PopSong(const std::string &s, const Artist &a, const Album &alb) : Song(s, a, alb)
+{
+}
+
+PopSong::~PopSong()
+{
+}
+
+RockSong::RockSong() : Song()
+{
+}
+
+RockSong::RockSong(const std::string &s, const Artist &a, const Album &alb) : Song(s, a, alb)
+{
+}
+
+RockSong::~RockSong()
+{
 }

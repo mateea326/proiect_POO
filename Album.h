@@ -1,24 +1,26 @@
 #ifndef _ALBUM_H_
 #define _ALBUM_H_
 #include <iostream>
-#include "MyString.h"
+#include <string>
 
 class Album
 {
-    MyString album_name;
+    std::string album_name;
 
 public:
     Album();
 
-    Album(const MyString &alb);
+    Album(const std::string &alb);
 
     ~Album();
 
     void operator=(Album &alb);
 
-    operator MyString() const;
+    bool operator==(const Album &alb) const;
 
     friend std::ostream &operator<<(std::ostream &out, const Album &alb);
+
+    friend std::istream &operator>>(std::istream &in, Album &alb);
 };
 
 #endif

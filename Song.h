@@ -1,21 +1,22 @@
 #ifndef _SONG_H_
 #define _SONG_H_
 #include <iostream>
-#include "MyString.h"
+#include <string>
 #include "Artist.h"
 #include "Album.h"
 
 class Song
 {
-    MyString song_name;
+    std::string song_name;
     Artist artist_name;
     Album album_name;
     float song_time;
+    static int total_songs;
 
 public:
     Song();
 
-    Song(const MyString &s, const Artist &a, const Album &alb);
+    Song(const std::string &s, const Artist &a, const Album &alb);
 
     ~Song();
 
@@ -29,13 +30,33 @@ public:
 
     void set_time(float time);
 
-    float get_time();
+    float get_time() const;
 
-    void operator=(Song &s);
+    static int get_total_songs();
 
-    operator MyString() const;
+    bool operator==(const Song &s) const;
 
     friend std::ostream &operator<<(std::ostream &out, const Song &s);
+};
+
+class PopSong : protected Song
+{
+public:
+    PopSong();
+
+    PopSong(const std::string &s, const Artist &a, const Album &alb);
+
+    ~PopSong();
+};
+
+class RockSong : protected Song
+{
+public:
+    RockSong();
+
+    RockSong(const std::string &s, const Artist &a, const Album &alb);
+
+    ~RockSong();
 };
 
 #endif
