@@ -1,15 +1,18 @@
 #include <iostream>
 #include <cstring>
 #include <vector>
-#include <cstdlib>
+#include <random>
 #include <limits>
 #include <cmath>
+#include <algorithm>
+#include <memory>
 
 #include "Song.h"
 #include "Artist.h"
 #include "Album.h"
 #include "Playlist.h"
 #include "Audio.h"
+#include "Vector.hpp"
 
 int main()
 {
@@ -73,10 +76,12 @@ int main()
     std::cout << "Download playlist (4)" << '\n';
     std::cout << "Make the playlist collaborative (5)" << '\n';
     std::cout << "Listen to a podcast instead (6)" << '\n';
-    std::cout << "Listen by genre (7)" << '\n';
+    std::cout << "Create your own playlist (7)" << '\n';
+    std::cout << "Get the shortest and the longest song lengths (8)" << '\n';
 
     int choice;
     std::cin >> choice;
+
     if (choice == 1)
     {
         std::cout << "Choose the song number:" << '\n';
@@ -118,8 +123,11 @@ int main()
     else if (choice == 2)
     {
         // alege o melodie random din playlist
-        srand((unsigned)time(NULL));
-        int random_index = rand() % 8;
+        std::random_device r;
+        std::default_random_engine e1(r());
+        std::uniform_int_distribution<int> uniform_dist(0, 7);
+        int random_index = uniform_dist(e1);
+
         std::cout << "Now Playing: " << p[random_index] << '\n';
         std::cout << "By: ";
         if (random_index == 5)
@@ -243,23 +251,32 @@ int main()
         std::string artist;
         std::string album;
 
+        std::cout << "Enter no. of songs:" << std::endl;
+        int nr_songs;
+        std::cin >> nr_songs;
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-        std::cout << "Enter genre: " << '\n';
-        std::getline(std::cin, genre);
-        std::cout << "Enter name: " << '\n';
-        std::getline(std::cin, name);
-        std::cout << "Enter artist: " << '\n';
-        std::getline(std::cin, artist);
-        std::cout << "Enter album: " << '\n';
-        std::getline(std::cin, album);
+        Playlist prp;
+        for (int i = 0; i < nr_songs; i++)
+        {
+            std::cout << "Song " << i + 1 << ":" << std::endl;
+            std::cout << "Enter genre: " << '\n';
+            std::getline(std::cin, genre);
+            std::cout << "Enter name: " << '\n';
+            std::getline(std::cin, name);
+            std::cout << "Enter artist: " << '\n';
+            std::getline(std::cin, artist);
+            std::cout << "Enter album: " << '\n';
+            std::getline(std::cin, album);
+        }
 
-        if (genre == "Pop")
-            PopSong(name, artist, album);
-        else if (genre == "Rock")
-            RockSong(name, artist, album);
+        std::cout << '\n'
+                  << "Your new playlist:" << '\n';
 
-        Audio *audio = new Melody(name, artist, genre); // upcasting
+        for (int i = 0; i < nr_songs; i++)
+            std::cout << i + 1 << ") " << prp[i] << '\n';
+
+        /*Audio *audio = new Melody(name, artist, genre); // upcasting
         audio->start();                                 // polimorfism la execuție (dynamic dispatch)
         std::cout << std::endl;
         audio->stop();
@@ -272,10 +289,18 @@ int main()
         std::cout << std::endl;
         melody->stop();
         std::cout << std::endl;
-        delete audio;
+        delete audio;*/
     }
-    else
-        std::cout << "Invalid number" << '\n';
+    else if (choice == 8)
+    {
+        Vector<float> times;
+        for (int i = 0; i < 8; i++)
+            times.push(p[i].get_time());
 
+        std::sort(times.begin(), times.end());
+
+        std::cout << "Shortest song has " << times[0] << " minutes" << std::endl;
+        std::cout << "Longest song has " << times[7] << " minutes" << std::endl;
+    }
     return 0;
 }

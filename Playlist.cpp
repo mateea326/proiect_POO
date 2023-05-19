@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 #include <cmath>
+#include <algorithm>
+
 #include "Playlist.h"
 #include "Song.h"
 
@@ -27,7 +29,7 @@ void Playlist::get_playlist_creator()
 bool Playlist::check_song(const Song &song)
 {
     for (int i = 0; i < playlist.size(); i++)
-         if (playlist[i] == song) 
+        if (playlist[i] == song)
             return 0;
     return 1;
 }

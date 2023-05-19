@@ -2,51 +2,41 @@
 #define _VECTOR_HPP_
 
 #include <iostream>
+#include <memory>
 
 template <typename DataType>
 class Vector
 {
     int size;
-    DataType *vector;
+    std::unique_ptr<DataType[]> vector;
 
 public:
-    Vector()
-    {
-        vector = nullptr;
-        size = 0;
-    }
+    Vector() : vector(nullptr), size(0) {}
 
     Vector(Vector<DataType> &v)
     {
         size = v.size;
-        vector = new DataType[size];
+        vector = std::make_unique<DataType[]>(size);
         for (int i = 0; i < size; i++)
             vector[i] = v[i];
     }
 
-    ~Vector()
-    {
-        delete[] vector;
-    }
+    ~Vector() {}
 
     void push(DataType value)
     {
-        DataType *vector2 = new DataType[size + 1];
+        auto vector2 = std::make_unique<DataType[]>(size + 1);
         for (int i = 0; i < size; i++)
             vector2[i] = vector[i];
         vector2[size] = value;
         size++;
-        delete[] vector;
-        vector = vector2;
+        vector = std::move(vector2);
     }
 
     void operator=(Vector<DataType> &v)
     {
-        if (vector != nullptr)
-            delete[] vector;
-
         size = v.size;
-        vector = new DataType[size];
+        vector = std::make_unique<DataType[]>(size);
 
         for (int i = 0; i < size; i++)
             vector[i] = v.vector[i];
@@ -57,13 +47,26 @@ public:
         return vector[i];
     }
 
+    DataType *begin()
+    {
+        return vector.get();
+    }
+
+    DataType *end()
+    {
+        return vector.get() + size;
+    }
+
+    bool operator<(const DataType &other) const
+    {
+        return (*this) < other;
+    }
+
     template <typename T>
     friend std::ostream &operator<<(std::ostream &out, const Vector<T> &v);
 
     template <typename T>
     friend std::istream &operator>>(std::istream &in, Vector<T> &v);
-
-    friend class Playlist;
 };
 
 template <typename DataType>
@@ -79,8 +82,8 @@ template <typename DataType>
 std::istream &operator>>(std::istream &in, Vector<DataType> &v)
 {
     in >> v.size;
-    delete[] v.vector;
-    v.vector = new DataType[v.size];
+    v.vector = std::make_unique<DataType[]>(v.size);
+
     for (int i = 0; i < v.size; i++)
         in >> v.vector[i];
     return in;

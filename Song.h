@@ -39,24 +39,4 @@ public:
     friend std::ostream &operator<<(std::ostream &out, const Song &s);
 };
 
-class PopSong : protected Song
-{
-public:
-    PopSong();
-
-    PopSong(const std::string &s, const Artist &a, const Album &alb);
-
-    ~PopSong();
-};
-
-class RockSong : protected Song
-{
-public:
-    RockSong();
-
-    RockSong(const std::string &s, const Artist &a, const Album &alb);
-
-    ~RockSong();
-};
-
 #endif

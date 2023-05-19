@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 
+//STRATEGY PATTERN
+
 // interfata pt obiecte audio
 
 class Audio

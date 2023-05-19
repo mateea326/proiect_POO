@@ -66,27 +66,3 @@ std::ostream &operator<<(std::ostream &out, const Song &s)
     out << s.song_name;
     return out;
 }
-
-PopSong::PopSong() : Song()
-{
-}
-
-PopSong::PopSong(const std::string &s, const Artist &a, const Album &alb) : Song(s, a, alb)
-{
-}
-
-PopSong::~PopSong()
-{
-}
-
-RockSong::RockSong() : Song()
-{
-}
-
-RockSong::RockSong(const std::string &s, const Artist &a, const Album &alb) : Song(s, a, alb)
-{
-}
-
-RockSong::~RockSong()
-{
-}
